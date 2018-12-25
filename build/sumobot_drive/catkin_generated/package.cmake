@@ -1,6 +1,6 @@
 set(_CATKIN_CURRENT_PACKAGE "sumobot_drive")
-set(sumobot_drive_VERSION "0.0.0")
-set(sumobot_drive_MAINTAINER "nickick <nickick@todo.todo>")
+set(sumobot_drive_VERSION "0.0.1")
+set(sumobot_drive_MAINTAINER "Nick Hafner <nrh16@ic.ac.uk>")
 set(sumobot_drive_PACKAGE_FORMAT "2")
 set(sumobot_drive_BUILD_DEPENDS "roscpp" "std_msgs")
 set(sumobot_drive_BUILD_EXPORT_DEPENDS "roscpp" "std_msgs")

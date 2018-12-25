@@ -285,6 +285,19 @@ gtest/fast:
 .PHONY : gtest/fast
 
 #=============================================================================
+# Target rules for targets named sumobot_drive_node
+
+# Build rule for target.
+sumobot_drive_node: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 sumobot_drive_node
+.PHONY : sumobot_drive_node
+
+# fast build rule for target.
+sumobot_drive_node/fast:
+	$(MAKE) -f sumobot_drive/CMakeFiles/sumobot_drive_node.dir/build.make sumobot_drive/CMakeFiles/sumobot_drive_node.dir/build
+.PHONY : sumobot_drive_node/fast
+
+#=============================================================================
 # Target rules for targets named roscpp_generate_messages_py
 
 # Build rule for target.
@@ -361,6 +374,19 @@ roscpp_generate_messages_cpp: cmake_check_build_system
 roscpp_generate_messages_cpp/fast:
 	$(MAKE) -f sumobot_drive/CMakeFiles/roscpp_generate_messages_cpp.dir/build.make sumobot_drive/CMakeFiles/roscpp_generate_messages_cpp.dir/build
 .PHONY : roscpp_generate_messages_cpp/fast
+
+#=============================================================================
+# Target rules for targets named sumobot_drive
+
+# Build rule for target.
+sumobot_drive: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 sumobot_drive
+.PHONY : sumobot_drive
+
+# fast build rule for target.
+sumobot_drive/fast:
+	$(MAKE) -f sumobot_drive/CMakeFiles/sumobot_drive.dir/build.make sumobot_drive/CMakeFiles/sumobot_drive.dir/build
+.PHONY : sumobot_drive/fast
 
 #=============================================================================
 # Target rules for targets named rosgraph_msgs_generate_messages_eus
@@ -501,12 +527,14 @@ help:
 	@echo "... gmock"
 	@echo "... gtest_main"
 	@echo "... gtest"
+	@echo "... sumobot_drive_node"
 	@echo "... roscpp_generate_messages_py"
 	@echo "... roscpp_generate_messages_eus"
 	@echo "... roscpp_generate_messages_lisp"
 	@echo "... rosgraph_msgs_generate_messages_cpp"
 	@echo "... std_msgs_generate_messages_lisp"
 	@echo "... roscpp_generate_messages_cpp"
+	@echo "... sumobot_drive"
 	@echo "... rosgraph_msgs_generate_messages_eus"
 	@echo "... rosgraph_msgs_generate_messages_lisp"
 	@echo "... std_msgs_generate_messages_cpp"

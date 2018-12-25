@@ -366,6 +366,9 @@ std_msgs_DIR:PATH=/opt/ros/melodic/share/std_msgs/cmake
 //Value Computed by CMake
 sumobot_drive_BINARY_DIR:STATIC=/home/nickick/sumobot_ws/build/sumobot_drive
 
+//Dependencies for target
+sumobot_drive_LIB_DEPENDS:STATIC=
+
 //Value Computed by CMake
 sumobot_drive_SOURCE_DIR:STATIC=/home/nickick/sumobot_ws/src/sumobot_drive
 

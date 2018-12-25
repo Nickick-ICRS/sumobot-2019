@@ -1,0 +1,8 @@
+# Ignore build outputs
+build/*
+
+# Ignore any objects and archives
+*.[oa]
+
+# Ignore any swp files from Nick being bad at Vim
+*.swp

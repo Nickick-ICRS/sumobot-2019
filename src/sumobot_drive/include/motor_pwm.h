@@ -20,7 +20,7 @@ public:
     // Set the duty cycle on period as a percentage of the total duty cycle
     void set_motor_power(char percent);
     // Change the direction of the motor
-    void set_motor_direction(bool direction) { m_direction = direction; };
+    void set_motor_direction(bool direction);
 private:
     // Length of the duty cycle
     float m_duty_cycle_length_us;
@@ -41,6 +41,6 @@ private:
     bool m_running;
     // Function to update the PWM state of the motor - run by above thread
     void update_PWM();
-}
+};
 
 #endif // MOTOR_PWM_H

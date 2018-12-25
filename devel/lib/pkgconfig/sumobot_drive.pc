@@ -2,7 +2,7 @@ prefix=/home/nickick/sumobot_ws/devel
 
 Name: sumobot_drive
 Description: Description of sumobot_drive
-Version: 0.0.0
-Cflags: 
+Version: 0.0.1
+Cflags: -I/home/nickick/sumobot_ws/src/sumobot_drive/include
 Libs: -L/home/nickick/sumobot_ws/devel/lib 
-Requires: 
+Requires: roscpp std_msgs

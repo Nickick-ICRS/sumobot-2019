@@ -14,12 +14,12 @@ PWMController::PWMController(int pwm_frequency_hz,
     pinMode(m_pwm_pin, OUTPUT);
     // Initialise thread to update the PWM cycle
     pwm_thread = new std::thread(&PWMController::update_PWM, this);
-    pwm_thread.detach();
+    pwm_thread->detach();
 }
 
 PWMController::~PWMController() {
-    running = false;
-    pwm_thread.join();
+    m_running = false;
+    pwm_thread->join();
     delete pwm_thread;
 }
 
@@ -37,20 +37,21 @@ void PWMController::set_motor_power(char percent) {
 
 void PWMController::set_motor_direction(bool direction) {
     m_direction = direction;
-    pinMode(
+    digitalWrite(m_direction_pin, m_direction);
+}
 
 void PWMController::update_PWM() {
     using namespace std::chrono;
 
     auto current_time = high_resolution_clock::now();
 
-    while(running) {
+    while(m_running) {
         auto dt = duration_cast<microseconds>(
             high_resolution_clock::now() - current_time
         );
         // Update pin output depending on state and time since last change
-        if((m_current_state && dt >=  m_duty_cycle_on_us) ||
-           (!m_current_state && dt >= m_duty_cycle_off_us)) {
+        if((m_current_state && dt.count() >=  m_duty_cycle_on_us) ||
+           (!m_current_state && dt.count() >= m_duty_cycle_off_us)) {
             current_time += dt;
             m_current_state = !m_current_state;
             digitalWrite(m_pwm_pin, m_current_state);

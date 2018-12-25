@@ -91,6 +91,17 @@ rebuild_cache/fast: rebuild_cache
 
 .PHONY : rebuild_cache/fast
 
+# Special rule for the target test
+test:
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Running tests..."
+	/usr/bin/ctest --force-new-ctest-process $(ARGS)
+.PHONY : test
+
+# Special rule for the target test
+test/fast: test
+
+.PHONY : test/fast
+
 # Special rule for the target list_install_components
 list_install_components:
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Available install components are: \"Unspecified\""
@@ -124,17 +135,6 @@ install/fast: preinstall/fast
 	/usr/bin/cmake -P cmake_install.cmake
 .PHONY : install/fast
 
-# Special rule for the target test
-test:
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Running tests..."
-	/usr/bin/ctest --force-new-ctest-process $(ARGS)
-.PHONY : test
-
-# Special rule for the target test
-test/fast: test
-
-.PHONY : test/fast
-
 # The main all target
 all: cmake_check_build_system
 	cd /home/nickick/sumobot_ws/build && $(CMAKE_COMMAND) -E cmake_progress_start /home/nickick/sumobot_ws/build/CMakeFiles /home/nickick/sumobot_ws/build/sumobot_drive/CMakeFiles/progress.marks
@@ -166,6 +166,21 @@ preinstall/fast:
 depend:
 	cd /home/nickick/sumobot_ws/build && $(CMAKE_COMMAND) -H$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR) --check-build-system CMakeFiles/Makefile.cmake 1
 .PHONY : depend
+
+# Convenience name for target.
+sumobot_drive/CMakeFiles/sumobot_drive_node.dir/rule:
+	cd /home/nickick/sumobot_ws/build && $(MAKE) -f CMakeFiles/Makefile2 sumobot_drive/CMakeFiles/sumobot_drive_node.dir/rule
+.PHONY : sumobot_drive/CMakeFiles/sumobot_drive_node.dir/rule
+
+# Convenience name for target.
+sumobot_drive_node: sumobot_drive/CMakeFiles/sumobot_drive_node.dir/rule
+
+.PHONY : sumobot_drive_node
+
+# fast build rule for target.
+sumobot_drive_node/fast:
+	cd /home/nickick/sumobot_ws/build && $(MAKE) -f sumobot_drive/CMakeFiles/sumobot_drive_node.dir/build.make sumobot_drive/CMakeFiles/sumobot_drive_node.dir/build
+.PHONY : sumobot_drive_node/fast
 
 # Convenience name for target.
 sumobot_drive/CMakeFiles/roscpp_generate_messages_py.dir/rule:
@@ -256,6 +271,21 @@ roscpp_generate_messages_cpp: sumobot_drive/CMakeFiles/roscpp_generate_messages_
 roscpp_generate_messages_cpp/fast:
 	cd /home/nickick/sumobot_ws/build && $(MAKE) -f sumobot_drive/CMakeFiles/roscpp_generate_messages_cpp.dir/build.make sumobot_drive/CMakeFiles/roscpp_generate_messages_cpp.dir/build
 .PHONY : roscpp_generate_messages_cpp/fast
+
+# Convenience name for target.
+sumobot_drive/CMakeFiles/sumobot_drive.dir/rule:
+	cd /home/nickick/sumobot_ws/build && $(MAKE) -f CMakeFiles/Makefile2 sumobot_drive/CMakeFiles/sumobot_drive.dir/rule
+.PHONY : sumobot_drive/CMakeFiles/sumobot_drive.dir/rule
+
+# Convenience name for target.
+sumobot_drive: sumobot_drive/CMakeFiles/sumobot_drive.dir/rule
+
+.PHONY : sumobot_drive
+
+# fast build rule for target.
+sumobot_drive/fast:
+	cd /home/nickick/sumobot_ws/build && $(MAKE) -f sumobot_drive/CMakeFiles/sumobot_drive.dir/build.make sumobot_drive/CMakeFiles/sumobot_drive.dir/build
+.PHONY : sumobot_drive/fast
 
 # Convenience name for target.
 sumobot_drive/CMakeFiles/rosgraph_msgs_generate_messages_eus.dir/rule:
@@ -392,6 +422,60 @@ std_msgs_generate_messages_py/fast:
 	cd /home/nickick/sumobot_ws/build && $(MAKE) -f sumobot_drive/CMakeFiles/std_msgs_generate_messages_py.dir/build.make sumobot_drive/CMakeFiles/std_msgs_generate_messages_py.dir/build
 .PHONY : std_msgs_generate_messages_py/fast
 
+src/motor_pwm.o: src/motor_pwm.cpp.o
+
+.PHONY : src/motor_pwm.o
+
+# target to build an object file
+src/motor_pwm.cpp.o:
+	cd /home/nickick/sumobot_ws/build && $(MAKE) -f sumobot_drive/CMakeFiles/sumobot_drive.dir/build.make sumobot_drive/CMakeFiles/sumobot_drive.dir/src/motor_pwm.cpp.o
+.PHONY : src/motor_pwm.cpp.o
+
+src/motor_pwm.i: src/motor_pwm.cpp.i
+
+.PHONY : src/motor_pwm.i
+
+# target to preprocess a source file
+src/motor_pwm.cpp.i:
+	cd /home/nickick/sumobot_ws/build && $(MAKE) -f sumobot_drive/CMakeFiles/sumobot_drive.dir/build.make sumobot_drive/CMakeFiles/sumobot_drive.dir/src/motor_pwm.cpp.i
+.PHONY : src/motor_pwm.cpp.i
+
+src/motor_pwm.s: src/motor_pwm.cpp.s
+
+.PHONY : src/motor_pwm.s
+
+# target to generate assembly for a file
+src/motor_pwm.cpp.s:
+	cd /home/nickick/sumobot_ws/build && $(MAKE) -f sumobot_drive/CMakeFiles/sumobot_drive.dir/build.make sumobot_drive/CMakeFiles/sumobot_drive.dir/src/motor_pwm.cpp.s
+.PHONY : src/motor_pwm.cpp.s
+
+src/sumobot_drive_node.o: src/sumobot_drive_node.cpp.o
+
+.PHONY : src/sumobot_drive_node.o
+
+# target to build an object file
+src/sumobot_drive_node.cpp.o:
+	cd /home/nickick/sumobot_ws/build && $(MAKE) -f sumobot_drive/CMakeFiles/sumobot_drive_node.dir/build.make sumobot_drive/CMakeFiles/sumobot_drive_node.dir/src/sumobot_drive_node.cpp.o
+.PHONY : src/sumobot_drive_node.cpp.o
+
+src/sumobot_drive_node.i: src/sumobot_drive_node.cpp.i
+
+.PHONY : src/sumobot_drive_node.i
+
+# target to preprocess a source file
+src/sumobot_drive_node.cpp.i:
+	cd /home/nickick/sumobot_ws/build && $(MAKE) -f sumobot_drive/CMakeFiles/sumobot_drive_node.dir/build.make sumobot_drive/CMakeFiles/sumobot_drive_node.dir/src/sumobot_drive_node.cpp.i
+.PHONY : src/sumobot_drive_node.cpp.i
+
+src/sumobot_drive_node.s: src/sumobot_drive_node.cpp.s
+
+.PHONY : src/sumobot_drive_node.s
+
+# target to generate assembly for a file
+src/sumobot_drive_node.cpp.s:
+	cd /home/nickick/sumobot_ws/build && $(MAKE) -f sumobot_drive/CMakeFiles/sumobot_drive_node.dir/build.make sumobot_drive/CMakeFiles/sumobot_drive_node.dir/src/sumobot_drive_node.cpp.s
+.PHONY : src/sumobot_drive_node.cpp.s
+
 # Help Target
 help:
 	@echo "The following are some of the valid targets for this Makefile:"
@@ -401,6 +485,8 @@ help:
 	@echo "... install/strip"
 	@echo "... install/local"
 	@echo "... rebuild_cache"
+	@echo "... test"
+	@echo "... sumobot_drive_node"
 	@echo "... list_install_components"
 	@echo "... roscpp_generate_messages_py"
 	@echo "... roscpp_generate_messages_eus"
@@ -409,6 +495,7 @@ help:
 	@echo "... rosgraph_msgs_generate_messages_cpp"
 	@echo "... std_msgs_generate_messages_lisp"
 	@echo "... roscpp_generate_messages_cpp"
+	@echo "... sumobot_drive"
 	@echo "... install"
 	@echo "... rosgraph_msgs_generate_messages_eus"
 	@echo "... rosgraph_msgs_generate_messages_lisp"
@@ -419,7 +506,12 @@ help:
 	@echo "... std_msgs_generate_messages_nodejs"
 	@echo "... roscpp_generate_messages_nodejs"
 	@echo "... std_msgs_generate_messages_py"
-	@echo "... test"
+	@echo "... src/motor_pwm.o"
+	@echo "... src/motor_pwm.i"
+	@echo "... src/motor_pwm.s"
+	@echo "... src/sumobot_drive_node.o"
+	@echo "... src/sumobot_drive_node.i"
+	@echo "... src/sumobot_drive_node.s"
 .PHONY : help
 
 
