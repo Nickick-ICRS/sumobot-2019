@@ -2,7 +2,19 @@
 
 This repository contains a catkin workspace to allow The Shoveller to be programmed in ROS. The Shoveller is an example robot for ICRS' (Imperial College Robotics Society) Sumobot2019 competition.
 
+The robot is programmed in ROS, so before proceeding make sure you have ROS installed (this was made on Melodic) and follow the [installation instructions](http://wiki.ros.org/ROS/Installation). It might be a good idea to do some of the [beginner tutorials](http://wiki.ros.org/ROS/Tutorials) if you don't know anything about ROS!
+
 ## Packages
+
+Each catkin package can be made and run the same way:
+
+1. open a terminal
+2. `cd <workspace>` (e.g. `cd ~/catkin_ws`)
+3. `catkin_make <package_name>` (or `catkin_make` to make all packages)
+4. `source devel/setup.bash` (unless you're not using bash - In which case you'll know and I'll assume you can work it out)
+5. `rosrun <package_name> node` (make sure you have roscore running in a separate terminal first!)
+
+To run multiple packages at once you only need to run catkin_make once, but you'll need to make sure you've sourced the setup file on each new terminal.
 
 The packages within are outlined as follows:
 
