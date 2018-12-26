@@ -1,8 +1,0 @@
-prefix=/home/nickick/sumobot_ws/install
-
-Name: sumobot_drive
-Description: Description of sumobot_drive
-Version: 0.0.1
-Cflags: -I/home/nickick/sumobot_ws/install/include
-Libs: -L/home/nickick/sumobot_ws/install/lib 
-Requires: roscpp std_msgs
