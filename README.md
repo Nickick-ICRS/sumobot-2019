@@ -37,10 +37,10 @@ This package contains code to control the motors by sending messages via a ROS t
  - jsoncpp - The amalgamated version of jsoncpp is included in this package, so no installation is necessary. To use this yourself see [the github repo](https://github.com/open-source-parsers/jsoncpp).
 
 The layout within the package is as follows:
- - main -> directs the pwm controller based on the most recently received values by the listener
-     - pwm_controller -> Controls the speed of the motors (as a %) via Pulse Width Modulation
-     - listener -> Listens on a topic defined in the config file for MotorPowers messages
-     - config -> Handles loading the config file (in ~/.config/sumobot/sumobot_drive)
+ - sumobot_drive_node -> Contains `main()`. Directs the pwm controller based on the most recently received values by the listener.
+     - pwm_controller -> Controls the speed of the motors (as a %) via Pulse Width Modulation.
+     - listener -> Listens on a topic defined in the config file for MotorPowers messages.
+     - config -> Handles loading the config file (in `~/.config/sumobot/sumobot_drive/config.json`).
 
 ### sumobot_xbox_controller
 ##### (Python)
@@ -50,6 +50,10 @@ This package contains code to read button and joystick states of an xbox control
  - xboxdrv - This is used by Xbox (below) and needs to be installed before being run via `sudo apt install xboxdrv` see [xboxdrv](http://xboxdrv.gitlab.io/) for more info.
 
  - Xbox - The python file used by this is xbox.py and is already included in this repo. To use this yourself see [the github repo](https://github.com/FRC4564/Xbox).
+
+The layout of this package is as follows:
+ - xbox_listener.py -> Executable script. Listens to an xbox controller and outputs a sensor_msgs/Joy message on a channel specified in the config.
+     - config.py -> Handles loading the config file (in `~/.config/sumobot/sumobot_xbox_controller/config.json`).
 
 
 ## Sumobot2019 Rules
