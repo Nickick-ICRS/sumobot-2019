@@ -19,17 +19,28 @@ To run multiple packages at once you only need to run catkin_make once, but you'
 The packages within are outlined as follows:
 
 ### sumobot_drive
+##### (C++)
 
 This package contains code to control the motors by sending messages via a ROS topic. The packages uses the following external libraries:
 
  - WiringPi - This needs to be installed via their website [here](http://wiringpi.com/download-and-install/). This allows for control of the GPIO pins.
- - jsoncpp - The amalgamated version of jsoncpp is included in this package, so no installation is necessary. TO use this yourself see [the github repo](https://github.com/open-source-parsers/jsoncpp).
+ - jsoncpp - The amalgamated version of jsoncpp is included in this package, so no installation is necessary. To use this yourself see [the github repo](https://github.com/open-source-parsers/jsoncpp).
 
 The layout within the package is as follows:
  - main -> directs the pwm controller based on the most recently received values by the listener
      - pwm_controller -> Controls the speed of the motors (as a %) via Pulse Width Modulation
      - listener -> Listens on a topic defined in the config file for MotorPowers messages
      - config -> Handles loading the config file (in ~/.config/sumobot/sumobot_drive)
+
+### sumobot_xbox_controller
+##### (Python)
+
+This package contains code to read button and joystick states of an xbox controller. The package uses the following external libraries:
+
+ - xboxdrv - This is used by Xbox (below) and needs to be installed before being run via `sudo apt install xboxdrv` see [xboxdrv](http://xboxdrv.gitlab.io/) for more info.
+
+ - Xbox - The python file used by this is xbox.py and is already included in this repo. To use this yourself see [the github repo](https://github.com/FRC4564/Xbox).
+
 
 ## Sumobot2019 Rules
 
