@@ -18,6 +18,16 @@ To run multiple packages at once you only need to run catkin_make once, but you'
 
 The packages within are outlined as follows:
 
+### sumobot_msgs
+
+This package contains msgs used by other ROS nodes to communicate. The messages included are:
+
+ - MotorPowers
+     - uint8 left_power (left motor power %, 0-100)
+     - uint8 right_power (right motor power %, 0-100)
+     - uint8 left_direction (left motor direction, 0-1)
+     - uint8 right_direction (right motor direction, 0-1)
+
 ### sumobot_drive
 
 This package contains code to control the motors by sending messages via a ROS topic. The packages uses the following external libraries:
