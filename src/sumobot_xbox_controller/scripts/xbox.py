@@ -241,4 +241,4 @@ class Joystick:
 
     # Cleanup by ending the xboxdrv subprocess
     def close(self):
-self.proc.kill()
+        self.proc.kill()
