@@ -1,5 +1,5 @@
-#ifndef __MOTOR_PWM_H
-#define __MOTOR_PWM_H
+#ifndef __PWM_CONTROLLER_H
+#define __PWM_CONTROLLER_H
 
 #include <wiringPi.h>
 #include <thread>

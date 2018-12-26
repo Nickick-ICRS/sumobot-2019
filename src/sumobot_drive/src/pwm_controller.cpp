@@ -1,4 +1,9 @@
-#include "motor_pwm.h"
+#include "pwm_controller.h"
+
+// Include for debugging on non-Pis
+#ifndef __arm__
+#include <iostream>
+#endif // __arm__
 
 PWMController::PWMController(int pwm_frequency_hz,
                              char motor_pwm_pin,
@@ -10,8 +15,10 @@ PWMController::PWMController(int pwm_frequency_hz,
                              m_direction(0),
                              m_running(true) {
     m_duty_cycle_length_us = 1000.0f / (float)pwm_frequency_hz;
+    #ifdef __arm__
     pinMode(m_direction_pin, OUTPUT);
     pinMode(m_pwm_pin, OUTPUT);
+    #endif // __arm__
     // Initialise thread to update the PWM cycle
     pwm_thread = new std::thread(&PWMController::update_PWM, this);
     pwm_thread->detach();
@@ -24,6 +31,10 @@ PWMController::~PWMController() {
 }
 
 void PWMController::set_motor_power(char percent) {
+    // Prevent spam below
+    #ifndef __arm__
+    float m_old_duty_cycle_on_us = m_duty_cycle_on_us;
+    #endif // __arm__
     // If the direction pin is off then the duty cycle is on for full speed
     if(!m_direction) {
         m_duty_cycle_on_us = percent * m_duty_cycle_length_us / 100.0f;
@@ -33,11 +44,24 @@ void PWMController::set_motor_power(char percent) {
         m_duty_cycle_on_us = (100 - percent) * m_duty_cycle_length_us / 100.0f;
     }
     m_duty_cycle_off_us = m_duty_cycle_length_us - m_duty_cycle_on_us;
+    // Terminal output when running on non-Pi
+    #ifndef __arm__
+    if(m_old_duty_cycle_on_us != m_duty_cycle_on_us) {
+        std::cout << "PWM Period: " << m_duty_cycle_on_us << std::endl;
+    }
+    #endif // __arm__
 }
 
 void PWMController::set_motor_direction(bool direction) {
-    m_direction = direction;
-    digitalWrite(m_direction_pin, m_direction);
+    if(m_direction != direction) {
+        m_direction = direction;
+        #ifdef __arm__
+        digitalWrite(m_direction_pin, m_direction);
+        // Terminal output when running on non-Pi
+        #else
+        std::cout << "Direction Changed!\n";
+        #endif // __arm__
+    }
 }
 
 void PWMController::update_PWM() {
@@ -54,7 +78,9 @@ void PWMController::update_PWM() {
            (!m_current_state && dt.count() >= m_duty_cycle_off_us)) {
             current_time += dt;
             m_current_state = !m_current_state;
+            #ifdef __arm__
             digitalWrite(m_pwm_pin, m_current_state);
+            #endif // __arm__
         }
     }
 }
