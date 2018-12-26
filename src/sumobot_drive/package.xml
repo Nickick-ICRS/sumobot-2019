@@ -1,8 +1,8 @@
 <?xml version="1.0"?>
 <package format="2">
   <name>sumobot_drive</name>
-  <version>0.0.1</version>
-  <description>Contains programs to control the driving of The Shoveller</description>
+  <version>0.0.2</version>
+  <description>Contains programs to control the motors of The Shoveller</description>
 
   <maintainer email="nrh16@ic.ac.uk">Nick Hafner</maintainer>
 
@@ -10,10 +10,7 @@
   <license>MIT</license>
 
 
-  <!-- Url tags are optional, but multiple are allowed, one per tag -->
-  <!-- Optional attribute type can be: website, bugtracker, or repository -->
-  <!-- Example: -->
-  <!-- <url type="website">http://wiki.ros.org/sumobot_drive</url> -->
+  <url type="website">https://github.com/Nickick-ICRS/sumobot-2019</url>
 
   <!-- Build tool dependencies -->
   <buildtool_depend>catkin</buildtool_depend>
@@ -21,7 +18,8 @@
   <!-- Build dependencies -->
   <build_depend>roscpp</build_depend>
   <build_depend>std_msgs</build_depend>
-  
+  <build_depend>message_generation</build_depend>
+
   <!-- Build export dependencies -->
   <build_export_depend>roscpp</build_export_depend>
   <build_export_depend>std_msgs</build_export_depend>
@@ -29,11 +27,6 @@
   <!-- Runtime dependencies -->
   <exec_depend>roscpp</exec_depend>
   <exec_depend>std_msgs</exec_depend>
+  <exec_depend>message_runtime</exec_depend>
 
-
-  <!-- The export tag contains other, unspecified, tags -->
-  <export>
-    <!-- Other tools can request additional information be placed here -->
-
-  </export>
 </package>
