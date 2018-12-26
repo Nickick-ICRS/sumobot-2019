@@ -3,7 +3,7 @@
 
 #include <ros/ros.h>
 #include <string>
-#include <sumobot_drive/MotorPowers.h>
+#include <sumobot_msgs/MotorPowers.h>
 
 /*
  * A class to listen on a ROS topic for motor instructions
@@ -31,7 +31,7 @@ private:
     // Pointer to this node's handle
     ros::NodeHandle *node_handle;
     // Callback to process information from the topic
-    void receive_motor_instructions(const sumobot_drive::MotorPowers::ConstPtr& msg); 
+    void receive_motor_instructions(const sumobot_msgs::MotorPowers::ConstPtr& msg); 
 };
 
 #endif // __LISTENER_H

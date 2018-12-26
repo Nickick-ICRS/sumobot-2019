@@ -16,7 +16,7 @@ Listener::~Listener() {
     // dtor
 }
 
-void Listener::receive_motor_instructions(const sumobot_drive::MotorPowers::ConstPtr& msg) {
+void Listener::receive_motor_instructions(const sumobot_msgs::MotorPowers::ConstPtr& msg) {
     // Set motor powers based on received values
     if(msg->left_power > 100)
         m_left_motor_target = 100;
