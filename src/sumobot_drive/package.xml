@@ -1,14 +1,12 @@
 <?xml version="1.0"?>
 <package format="2">
   <name>sumobot_drive</name>
-  <version>0.0.2</version>
-  <description>Contains programs to control the motors of The Shoveller</description>
+  <version>0.1.0</version>
+  <description>Control the motors of The Shoveller via MotorPowers messages.</description>
 
   <maintainer email="nrh16@ic.ac.uk">Nick Hafner</maintainer>
 
-
   <license>MIT</license>
-
 
   <url type="website">https://github.com/Nickick-ICRS/sumobot-2019</url>
 
