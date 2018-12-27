@@ -1,0 +1,40 @@
+<?xml version="1.0"?>
+<package format="2">
+  <name>sumobot_motion_master</name>
+  <version>0.0.1</version>
+  <description>Receives joystick messages from the sumobot_xbox_controller package and outputs motor powers to the sumobot_drive package.</description>
+
+  <maintainer email="nrh16@ic.ac.uk">Nick Hafner</maintainer>
+
+  <license>MIT</license>
+
+  <url type="website">https://github.com/Nickick-ICRS/sumobot-2019</url>
+  
+  <!-- Build tool dependencies -->
+  <buildtool_depend>catkin</buildtool_depend>
+
+  <!-- Build dependencies -->
+  <build_depend>roscpp</build_depend>
+  <build_depend>std_msgs</build_depend>
+  <build_depend>sumobot_msgs</build_depend>
+  <build_depend>sensor_msgs</build_depend>
+  <build_depend>sumobot_drive</build_depend>
+  <build_depend>sumobot_xbox_controller</build_depend>
+
+  <!-- Build export dependencies -->
+  <build_export_depend>roscpp</build_export_depend>
+  <build_export_depend>std_msgs</build_export_depend>
+  <build_export_depend>sumobot_msgs</build_export_depend>
+  <build_export_depend>sensor_msgs</build_export_depend>
+  <build_export_depend>sumobot_drive</build_export_depend>
+  <build_export_depend>sumobot_xbox_controller</build_export_depend>
+
+  <!-- Runtime dependencies -->
+  <exec_depend>roscpp</exec_depend>
+  <exec_depend>std_msgs</exec_depend>
+  <exec_depend>sumobot_msgs</exec_depend>
+  <exec_depend>sensor_msgs</exec_depend>
+  <exec_depend>sumobot_drive</exec_depend>
+  <exec_depend>sumobot_xbox_controller</exec_depend>
+
+</package>
