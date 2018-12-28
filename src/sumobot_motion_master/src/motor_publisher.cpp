@@ -8,7 +8,7 @@ MotorPublisher::~MotorPublisher() {
     // dtor
 }
 
-void MotorPublisher::send_message(MotorPowers msg) {
+void MotorPublisher::send_message(sumobot_msgs::MotorPowers msg) {
     // Publish the data
     m_publisher.publish(msg);
 }

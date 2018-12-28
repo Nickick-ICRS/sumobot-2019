@@ -1,6 +1,8 @@
 #include <iostream>
 #include <ros/ros.h>
 
+#include "xbox_listener.h"
+
 int main(int argc, char **argv) {
     // Load config files
 
@@ -10,7 +12,7 @@ int main(int argc, char **argv) {
     ros::NodeHandle node_handle;
 
     // Create listener for xbox controller data
-
+    XboxListener controller(&node_handle, "topic_name");
     // Create publisher to send motor power data
 
 

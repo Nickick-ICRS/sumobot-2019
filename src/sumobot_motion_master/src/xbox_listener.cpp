@@ -1,6 +1,6 @@
 #include "xbox_listener.h"
 
-XboxListener::XboxListener(ros::nodeHandle *n, std::string topic_name) {
+XboxListener::XboxListener(ros::NodeHandle *n, std::string topic_name) {
     node_handle = n;
     m_subscriber = n->subscribe(topic_name,
                                 100,
