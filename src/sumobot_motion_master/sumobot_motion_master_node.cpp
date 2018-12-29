@@ -6,6 +6,8 @@
 #include "motor_publisher.h"
 #include "motion_controller.h"
 
+using namespace std::chrono;
+
 int main(int argc, char **argv) {
     // Load config files
 
@@ -24,22 +26,21 @@ int main(int argc, char **argv) {
     // Limit the update rate of the motion_controller to 100 Hz
     ros::Rate sleeper(100);
 
-    std::chrono::high_resolution_clock clock;
+    high_resolution_clock clock;
 
-    using seconds = std::chrono::duration<float>; 
-
-    seconds current_time = std::chrono::duration_cast<seconds>(
-        clock.now().time_since_epoch()
-    );
-    seconds dt_s;
+    auto current_time = clock.now();
 
     while(ros::ok()) {
-        dt_s = clock.now().time_since_epoch() - current_time;
-        current_time = current_time + dt_s;
+        auto dt_us = duration_cast<microseconds>(
+            clock.now() - current_time
+        );
+        current_time = current_time + dt_us;
 
         // Update the motion controller with the elapsed time
-        motion_controller.update(dt_s.count());
+        motion_controller.update(dt_us.count()/1000000.0f);
         
+        std::cout << dt_us.count() / 1000000.0f  << std::endl;
+
         // Check for ros updates (e.g. messages)
         ros::spinOnce();
 
