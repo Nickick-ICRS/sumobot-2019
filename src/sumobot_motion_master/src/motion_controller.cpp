@@ -13,7 +13,9 @@ bool operator==(const MotorPowerFloats& lhs, const MotorPowerFloats& rhs) {
     return false;
 }
 
-MotionController::MotionController() {
+MotionController::MotionController(MotorPublisher *p) {
+    publisher = p;
+    
     // Config variables
     m_left_deadband = 0.1;
     m_right_deadband = 0.1;
@@ -55,7 +57,7 @@ void MotionController::process_axes_data(float *left, float *right) {
     float turning_vel = right[0];
     // ry - not used
     // right[1];
-    
+   
     // Set both directions as if not turning
     if(forwards_vel < 0) {
         m_target_powers.left_direction = 0;
@@ -148,13 +150,14 @@ void MotionController::process_button_data(bool a,
         button_y_callback();
 }
 
-void MotionController::update(float dt_s) {
+bool MotionController::update(float dt_s) {
     // Increment timeout counter
     m_time_since_last_xbox_command += dt_s;
     // If we've timedout then we need to stop moving
     if(m_time_since_last_xbox_command > m_timeout_s) {
         m_target_powers.left_power = 0;
         m_target_powers.right_power = 0;
+        return false;
     }
     // No point updating if nothing has changed - the PWM controller
     // doesn't care how often it receives data
@@ -163,6 +166,7 @@ void MotionController::update(float dt_s) {
         send_data();
         m_powers_changed = false;
     }
+    return true;
 }
 
 void MotionController::send_data() {
@@ -173,6 +177,7 @@ void MotionController::send_data() {
     msg.right_direction = m_motor_powers.right_direction;
 
     // Send data
+    publisher->send_message(msg);
 }
 
 void MotionController::update_motor_powers(float dt_s) {

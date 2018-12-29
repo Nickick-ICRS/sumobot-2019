@@ -1,11 +1,13 @@
 #include "xbox_listener.h"
 
-XboxListener::XboxListener(ros::NodeHandle *n, std::string topic_name) {
-    node_handle = n;
+XboxListener::XboxListener(ros::NodeHandle *n,
+                           MotionController *m,
+                           std::string topic_name) {
     m_subscriber = n->subscribe(topic_name,
                                 100,
                                 &XboxListener::receive_xbox_data,
                                 this);
+    motion_controller = m;
 }
 
 XboxListener::~XboxListener() {
@@ -13,21 +15,29 @@ XboxListener::~XboxListener() {
 }
 
 void XboxListener::receive_xbox_data(const sensor_msgs::Joy::ConstPtr& msg) {
+    float left_axes[2];
+    float right_axes[2];
     // lx
-    msg->axes[0];
+    left_axes[0] = msg->axes[0];
     // ly
-    msg->axes[1];
+    left_axes[1] = msg->axes[1];
     // rx
-    msg->axes[2];
+    right_axes[0] = msg->axes[2];
     // ry
-    msg->axes[3];
+    right_axes[1] = msg->axes[3];
+
+    motion_controller->process_axes_data(left_axes, right_axes);
 
     // a
-    msg->buttons[0];
+    bool a = msg->buttons[0];
     // b
-    msg->buttons[1];
+    bool b = msg->buttons[1];
     // x
-    msg->buttons[2];
+    bool x = msg->buttons[2];
     // y
-    msg->buttons[3];
+    bool y = msg->buttons[3];
+
+    if(a || b || x || y) {
+        motion_controller->process_button_data(a, b, x, y);
+    }
 }

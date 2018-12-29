@@ -4,6 +4,8 @@
 #include <sensor_msgs/Joy.h>
 #include <sumobot_msgs/MotorPowers.h>
 
+#include "motor_publisher.h"
+
 // Helper struct to allow floating point acceleration of 
 // the integer motor powers
 struct MotorPowerFloats {
@@ -18,13 +20,16 @@ bool operator==(const MotorPowerFloats& lhs, const MotorPowerFloats& rhs);
 
 class MotionController {
 public:
-    MotionController();
+    MotionController(MotorPublisher *p);
     ~MotionController();
 
     void process_axes_data(float *left, float *right);
     void process_button_data(bool a, bool b, bool x, bool y);
-    void update(float dt_s);
+    bool update(float dt_s);
 private:
+    // Pointer to the publisher of motor power data
+    MotorPublisher *publisher;
+
     // Target for the motor powers to reach
     MotorPowerFloats m_target_powers;
     // Current values of the motor powers
