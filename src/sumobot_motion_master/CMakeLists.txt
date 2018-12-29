@@ -67,6 +67,7 @@ add_executable(${PROJECT_NAME}_node
   sumobot_motion_master_node.cpp
   src/xbox_listener.cpp
   src/motor_publisher.cpp
+  src/motion_controller.cpp
 )
 
 ## Rename C++ executable without prefix
