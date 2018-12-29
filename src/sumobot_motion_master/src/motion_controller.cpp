@@ -34,6 +34,7 @@ MotionController::MotionController() {
     m_motor_powers.right_direction = 1;
     m_time_since_last_xbox_command = 0;
     m_acceleration = m_max_acceleration / 2;
+    m_powers_changed = false;
 }
 
 MotionController::~MotionController() {
@@ -43,6 +44,8 @@ MotionController::~MotionController() {
 void MotionController::process_axes_data(float *left, float *right) {
     // Reset timeout counter
     m_time_since_last_xbox_command = 0;
+    // Turn on flag
+    m_powers_changed = true;
     
     // lx - not used
     // left[0];
@@ -130,6 +133,11 @@ void MotionController::process_button_data(bool a,
                                             bool b,
                                             bool x,
                                             bool y) {
+    // Reset timeout counter
+    m_time_since_last_xbox_command = 0;
+    // Turn on flag
+    m_powers_changed = true;
+
     if(a)
         button_a_callback();
     if(b)
@@ -150,9 +158,10 @@ void MotionController::update(float dt_s) {
     }
     // No point updating if nothing has changed - the PWM controller
     // doesn't care how often it receives data
-    if(m_target_powers != m_motor_powers) {
+    if(m_powers_changed) {
         update_motor_powers(dt_s);
         send_data();
+        m_powers_changed = false;
     }
 }
 

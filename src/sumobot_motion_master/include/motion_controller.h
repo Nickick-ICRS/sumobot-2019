@@ -34,6 +34,8 @@ private:
     float m_time_since_last_xbox_command;
     // Acceleration amount (in % per second)
     float m_acceleration;
+    // Whether the powers have been changed
+    bool m_powers_changed;
 
     /* CONFIG Variables */
 
