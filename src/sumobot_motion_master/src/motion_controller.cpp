@@ -8,8 +8,9 @@ bool operator==(const MotorPowerFloats& lhs, const MotorPowerFloats& rhs) {
     if(lhs.left_power == rhs.left_power &&
        lhs.right_power == rhs.right_power &&
        lhs.left_direction == rhs.left_direction &&
-       lhs.right_direction == rhs.right_direction)
+       lhs.right_direction == rhs.right_direction) {
         return true;
+    }
     return false;
 }
 
@@ -46,8 +47,6 @@ MotionController::~MotionController() {
 void MotionController::process_axes_data(float *left, float *right) {
     // Reset timeout counter
     m_time_since_last_xbox_command = 0;
-    // Turn on flag
-    m_powers_changed = true;
     
     // lx - not used
     // left[0];
@@ -57,7 +56,7 @@ void MotionController::process_axes_data(float *left, float *right) {
     float turning_vel = right[0];
     // ry - not used
     // right[1];
-   
+    
     // Set both directions as if not turning
     if(forwards_vel < 0) {
         m_target_powers.left_direction = 0;
@@ -82,8 +81,12 @@ void MotionController::process_axes_data(float *left, float *right) {
     }
     if(abs(turning_vel) < m_right_deadband) 
         turning_vel = 0;
-    else {
+    else if(turning_vel > 0) {
         turning_vel = (turning_vel - m_right_deadband)
+                    / (1.0f - m_right_deadband);
+    }
+    else {
+        turning_vel = (turning_vel + m_right_deadband)
                     / (1.0f - m_right_deadband);
     }
 
@@ -99,7 +102,7 @@ void MotionController::process_axes_data(float *left, float *right) {
         // When turning_vel < 0 then right_vel should be positive
         // When turning_vel > 0 then right_vel should be negative
         // forwards_vel is normalised though so account for this at the end
-        float right_vel = (0.5 - abs(turning_vel)) * forwards_vel / 0.5f;
+        float right_vel = abs(turning_vel) * forwards_vel / 0.5f;
         
         m_target_powers.right_power = right_vel * 100;
 
@@ -116,7 +119,7 @@ void MotionController::process_axes_data(float *left, float *right) {
         // When turning_vel > 0 then left_vel should be positive
         // When turning_vel < 0 then left_vel should be negative
         // forwards_vel is normalised though so account for this at the end
-        float left_vel = (0.5 - abs(turning_vel)) * forwards_vel / 0.5f;
+        float left_vel = abs(turning_vel) * forwards_vel / 0.5f;
         
         m_target_powers.left_power = left_vel * 100;
 
@@ -129,6 +132,7 @@ void MotionController::process_axes_data(float *left, float *right) {
     // Counteract for a stringer left or right motor
     m_target_powers.left_power *= m_left_multiplier;
     m_target_powers.right_power *= m_right_multiplier;
+
 }
 
 void MotionController::process_button_data(bool a,
@@ -161,10 +165,9 @@ bool MotionController::update(float dt_s) {
     }
     // No point updating if nothing has changed - the PWM controller
     // doesn't care how often it receives data
-    if(m_powers_changed) {
+    if(m_target_powers != m_motor_powers) {
         update_motor_powers(dt_s);
         send_data();
-        m_powers_changed = false;
     }
     return true;
 }
@@ -184,10 +187,10 @@ void MotionController::update_motor_powers(float dt_s) {
     // If there's a direction change we need to decelerate the motor
     if(m_target_powers.left_direction != m_motor_powers.left_direction) {
         // Decelerate until direction can swap
-        if(m_motor_powers.left_power < m_motor_zero_power)
+        if(m_motor_powers.left_power <= m_motor_zero_power)
             m_motor_powers.left_direction = m_target_powers.left_direction;
         else
-            m_motor_powers.left_direction -= m_acceleration * dt_s;
+            m_motor_powers.left_power -= m_acceleration * dt_s;
         // Prevent negative PWM
         if(m_motor_powers.left_direction < 0)
             m_motor_powers.left_direction = 0;
@@ -210,10 +213,10 @@ void MotionController::update_motor_powers(float dt_s) {
     // Repeat for right motor
     if(m_target_powers.right_direction != m_motor_powers.right_direction) {
         // Decelerate until direction can swap
-        if(m_motor_powers.right_power < m_motor_zero_power)
+        if(m_motor_powers.right_power <= m_motor_zero_power)
             m_motor_powers.right_direction = m_target_powers.right_direction;
         else
-            m_motor_powers.right_direction -= m_acceleration * dt_s;
+            m_motor_powers.right_power -= m_acceleration * dt_s;
         // Prevent negative PWM
         if(m_motor_powers.right_direction < 0)
             m_motor_powers.right_direction = 0;
@@ -230,6 +233,11 @@ void MotionController::update_motor_powers(float dt_s) {
         // If target is lower then decrease power
         else 
             m_motor_powers.right_power -= m_acceleration * dt_s;
+    }
+
+    if(m_target_powers == m_motor_powers) {
+        // Update flag
+        m_powers_changed = false;
     }
 }
 

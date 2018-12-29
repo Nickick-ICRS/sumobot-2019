@@ -17,13 +17,13 @@ int main(int argc, char **argv) {
     ros::NodeHandle node_handle;
 
     // Create publisher to send motor power data
-    MotorPublisher publisher(&node_handle, "topic_name");
+    MotorPublisher publisher(&node_handle, "motor_control");
     // Create motion controller to handle data processing
     MotionController motion_controller(&publisher);
     // Create listener for xbox controller data
     XboxListener controller(&node_handle, 
                             &motion_controller, 
-                            "topic_name_2");
+                            "xbox_controller_data");
 
     // Limit the update rate of the motion_controller to 100 Hz
     ros::Rate sleeper(100);
@@ -40,7 +40,7 @@ int main(int argc, char **argv) {
 
         // Update the motion controller with the elapsed time
         if(!motion_controller.update(dt_us.count()/1000000.0f)) {
-            std::cout << "Lost signal with xbox controller. Closing node";
+            std::cout << "Lost signal with xbox controller. Closing node\n";
             return 1;
         }
         
