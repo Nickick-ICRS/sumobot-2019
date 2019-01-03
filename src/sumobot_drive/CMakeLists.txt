@@ -3,8 +3,6 @@ project(sumobot_drive)
 
 # Compile as C++11, supported in ROS Kinetic and newer
 add_compile_options(-std=c++11)
-# Include WiringPi
-add_compile_options(-lwiringPi)
 
 ## Find catkin macros and libraries
 ## if COMPONENTS list like find_package(catkin REQUIRED COMPONENTS xyz)
@@ -14,10 +12,6 @@ find_package(catkin REQUIRED COMPONENTS
   std_msgs
   sumobot_msgs
 )
-
-## System dependencies are found with CMake's conventions
-# find_package(Boost REQUIRED COMPONENTS system)
-
 
 ## Uncomment this if the package has a setup.py. This macro ensures
 ## modules and global scripts declared therein get installed
@@ -154,6 +148,7 @@ add_dependencies(${PROJECT_NAME}_node ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catk
 # Specify libraries to link a library or executable target against
 target_link_libraries(
   ${PROJECT_NAME}_node
+  wiringPi
   ${catkin_LIBRARIES}
 )
 
