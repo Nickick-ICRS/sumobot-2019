@@ -3,5 +3,7 @@ devel/
 install/
 logs/
 
+*.pyc
+
 # Ignore any swp files from Nick being bad at Vim
 *.swp

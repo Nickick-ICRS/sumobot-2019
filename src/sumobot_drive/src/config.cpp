@@ -30,8 +30,6 @@ ConfigManager::~ConfigManager() {
     // dtor
 }
 
-#include <iostream>
-
 void ConfigManager::reload_config_file() {
     // Make the config directory if it doesn't exist
     system((std::string("mkdir -p ") + CONFIG_FILEPATH).c_str());
