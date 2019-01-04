@@ -14,7 +14,14 @@ bool operator==(const MotorPowerFloats& lhs, const MotorPowerFloats& rhs) {
     return false;
 }
 
-MotionController::MotionController(MotorPublisher *p) {
+MotionController::MotionController(MotorPublisher *p,
+                                   float left_deadband,
+                                   float right_deadband,
+                                   float max_acceleration,
+                                   float left_multiplier,
+                                   float right_multiplier,
+                                   int motor_zero_power,
+                                   float timeout_s) {
     publisher = p;
     
     // Config variables
@@ -250,9 +257,9 @@ void MotionController::button_b_callback() {
 }
 
 void MotionController::button_x_callback() {
-    std::cout << "Button X pressed\n";
+    std::cout << "Button X pressed!\n";
 }
 
 void MotionController::button_y_callback() {
-    std::cout << "Button Y pressed\n";
+    std::cout << "Button Y pressed!\n";
 }

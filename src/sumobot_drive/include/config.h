@@ -3,7 +3,7 @@
 
 #include "json/json.h"
 
-#include <ios>
+#include <iostream>
 #include <fstream>
 
 // Filename of the config file this class handles

@@ -58,7 +58,9 @@ The layout of this package is as follows:
 ### sumobot_motion_master
 ##### (C++)
 
-This package contains code to decide the motion of the robot, by converting Joy data to MotorPowers data. This package does not use any external libraries.
+This package contains code to decide the motion of the robot, by converting Joy data to MotorPowers data. This package uses the following external libraries:
+
+ - jsoncpp - The amalgamated version of jsoncpp is included in this package, so no installation is necessary. To use this yourself see [the github repo](https://github.com/open-source-parsers/jsoncpp).
 
 The layout of this package is as follows:
  - sumobot_motion_master_node -> contains `main()`. Initialises the ros loop and updates the other classes.

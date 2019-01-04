@@ -20,7 +20,14 @@ bool operator==(const MotorPowerFloats& lhs, const MotorPowerFloats& rhs);
 
 class MotionController {
 public:
-    MotionController(MotorPublisher *p);
+    MotionController(MotorPublisher *p,
+                     float left_deadband,
+                     float right_deadband,
+                     float max_acceleration,
+                     float left_multiplier,
+                     float right_multiplier,
+                     int motor_zero_power,
+                     float timeoue_s);
     ~MotionController();
 
     void process_axes_data(float *left, float *right);

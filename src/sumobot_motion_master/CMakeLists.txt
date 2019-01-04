@@ -68,6 +68,9 @@ add_executable(${PROJECT_NAME}_node
   src/xbox_listener.cpp
   src/motor_publisher.cpp
   src/motion_controller.cpp
+  src/config.cpp
+  src/motion_master_config.cpp
+  src/jsoncpp.cpp
 )
 
 ## Rename C++ executable without prefix
