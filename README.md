@@ -55,6 +55,17 @@ The layout of this package is as follows:
  - xbox_listener.py -> Executable script. Listens to an xbox controller and outputs a sensor_msgs/Joy message on a channel specified in the config.
      - config.py -> Handles loading the config file (in `~/.config/sumobot/sumobot_xbox_controller/config.json`).
 
+### sumobot_motion_master
+##### (C++)
+
+This package contains code to decide the motion of the robot, by converting Joy data to MotorPowers data. This package does not use any external libraries.
+
+The layout of this package is as follows:
+ - sumobot_motion_master_node -> contains `main()`. Initialises the ros loop and updates the other classes.
+     - motion_controller -> processes Joy data and sends MotorPowers data to the motor_publisher.
+         - motor_publisher -> publishes MotorPowers data on the relevant ros topic.
+     - xbox_listener -> listens for Joy data on the relevant ros topic.
+
 
 ## Sumobot2019 Rules
 
