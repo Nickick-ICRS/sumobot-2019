@@ -32,10 +32,7 @@
 #include <thread>
 #include <chrono>
 
-/*
- * PWM Control for the motors used in The Shoveller
- * When compiling ensure to include -lwiringPi for wiringPi
- */
+#include "mbed_serial.h"
 
 class PWMController {
 public:
@@ -68,6 +65,8 @@ private:
     bool m_running;
     // Function to update the PWM state of the motor - run by above thread
     void update_PWM();
+
+    MbedSerial *m_serial;
 };
 
 #endif // MOTOR_PWM_H

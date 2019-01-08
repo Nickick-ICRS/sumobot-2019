@@ -16,6 +16,12 @@ Each catkin package can be made and run the same way:
 
 To run multiple packages at once you only need to run catkin_make once, but you'll need to make sure you've sourced the setup file on each new terminal.
 
+## MBED SETUFF
+1. Install [gcc4mbed](https://github.com/adamgreen/gcc4mbed) - note that the repo is included as a submodule, but needs to be installed
+2. Install rosserial as per instructions [here](http://wiki.ros.org/rosserial_mbed/Tutorials/rosserial_mbed%20Setup). Note that the rosserial repo is already included as a submodule, and gcc4mbed is installed somewhere in this repo too.
+    - Exporting path variables is then `$ export GCC4MBED_DIR=<workspace_dir>/gcc4mbed
+
+
 The packages within are outlined as follows:
 
 ### sumobot_msgs
