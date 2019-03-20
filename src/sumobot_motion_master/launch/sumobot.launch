@@ -1,0 +1,6 @@
+<launch>
+    <!-- required=true causes all nodes to close if the node crashes -->
+    <node pkg="sumobot_motion_master" type="node" name="sumobot_motion_master" required="true"/>
+    <node pkg="sumobot_drive" type="node" name="sumobot_drive" required="true"/>
+    <node pkg="sumobot_xbox_controller" type="node" name="sumobot_xbox_controller" required="true"/>
+</launch>

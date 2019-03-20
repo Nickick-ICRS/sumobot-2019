@@ -46,6 +46,7 @@ def publisher(controller):
             b = controller.B()
             x = controller.X()
             y = controller.Y()
+            print((lx, ly, rx, ry))
         
         # Store controller data ready to be sent
         controller_data = Joy(axes=(lx, ly, rx, ry),
@@ -61,12 +62,16 @@ if __name__ == '__main__':
     # If the config tells us to ignore the xbox controller then don't use it
     # This lets us debug code without a controller
     if(config.data["use_controller"]):
-        # Initialise the xbox controller
-        controller = xbox.Joystick()
-        try:
-            publisher(controller)
-        except rospy.ROSInterruptException:
-            controller.close()
+        # Keep trying to connect to the controller
+        while(True):
+            # Initialise the xbox controller
+            controller = xbox.Joystick()
+            try:
+                publisher(controller)
+            except rospy.ROSInterruptException:
+                controller.close()
+            except IOError:
+                pass;
 
     else:
         try:
