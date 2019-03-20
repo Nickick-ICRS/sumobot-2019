@@ -1,5 +1,0 @@
-<launch>
-    <node name="sumobot_drive" pkg="sumobot_drive" type="node"/>
-    <node name="sumobot_xbox_controller" pkg="sumobot_xbox_controller" type="node"/>
-    <node name="sumobot_motion_master" pkg="sumobot_motion_master" type="node"/>
-</launch>
