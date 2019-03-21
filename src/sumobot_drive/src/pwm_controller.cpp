@@ -32,19 +32,22 @@
 #include <iostream>
 #endif // __arm__
 
-PWMController::PWMController(int pwm_frequency_hz,
+PWMController::PWMController(float kp, 
+                             float ki, 
+                             float kd,
                              char motor_pwm_pin,
                              char motor_direction_pin):
                              m_pwm_pin(motor_pwm_pin),
                              m_direction_pin(motor_direction_pin),
-                             m_duty_cycle_on_us(0),
-                             m_current_state(0),
-                             m_direction(0),
+                             m_kp(kp),
+                             m_ki(ki),
+                             m_kd(kd),
+                             m_i_err(0),
+                             m_pr_diff(0),
                              m_running(true) {
-    m_duty_cycle_length_us = 1000.0f / (float)pwm_frequency_hz;
     #ifdef __arm__
-    pinMode(m_direction_pin, OUTPUT);
-    pinMode(m_pwm_pin, OUTPUT);
+    gpioSetMode(m_direction_pin, PI_OUTPUT);
+    gpioSetMode(m_pwm_pin, PI_OUTPUT);
     #endif // __arm__
     // Initialise thread to update the PWM cycle
     pwm_thread = new std::thread(&PWMController::update_PWM, this);
@@ -57,42 +60,26 @@ PWMController::~PWMController() {
     delete pwm_thread;
 }
 
-void PWMController::set_motor_power(char percent) {
-    // Prevent spam below
-    #ifndef __arm__
-    float m_old_duty_cycle_on_us = m_duty_cycle_on_us;
-    #endif // __arm__
-    // If the direction pin is off then the duty cycle is on for full speed
-    if(!m_direction) {
-        m_duty_cycle_on_us = percent * m_duty_cycle_length_us / 100.0f;
+void PWMController::set_motor_power(signed char percent) {
+    // Set target power in W
+    m_target_power = 0.015 * percent;
+    if(percent < 0) {
+        percent = -percent;
+        gpioWrite(m_direction_pin, 1);
     }
-    // Otherwise the duty cycle is off for full speed
-    else {
-        m_duty_cycle_on_us = (100 - percent) * m_duty_cycle_length_us / 100.0f;
-    }
-    m_duty_cycle_off_us = m_duty_cycle_length_us - m_duty_cycle_on_us;
-    // Terminal output when running on non-Pi
-    #ifndef __arm__
-    if(m_old_duty_cycle_on_us != m_duty_cycle_on_us) {
-        std::cout << "PWM Period: " << m_duty_cycle_on_us << std::endl;
-    }
-    #endif // __arm__
-}
-
-void PWMController::set_motor_direction(bool direction) {
-    if(m_direction != direction) {
-        m_direction = direction;
-        #ifdef __arm__
-        digitalWrite(m_direction_pin, m_direction);
-        // Terminal output when running on non-Pi
-        #else
-        std::cout << "Direction Changed!\n";
-        #endif // __arm__
-    }
+    else
+        gpioWrite(m_direction_pin, 0);
+    gpioPWM(m_pwm_pin, percent);
 }
 
 void PWMController::update_PWM() {
+    return;
     using namespace std::chrono;
+
+    char dir;
+    float pwm = 0;
+    float err;
+    float diff;
 
     auto current_time = high_resolution_clock::now();
 
@@ -100,14 +87,45 @@ void PWMController::update_PWM() {
         auto dt = duration_cast<microseconds>(
             high_resolution_clock::now() - current_time
         );
-        // Update pin output depending on state and time since last change
-        if((m_current_state && dt.count() >=  m_duty_cycle_on_us) ||
-           (!m_current_state && dt.count() >= m_duty_cycle_off_us)) {
-            current_time += dt;
-            m_current_state = !m_current_state;
-            #ifdef __arm__
-            digitalWrite(m_pwm_pin, m_current_state);
-            #endif // __arm__
+
+        current_time += dt;
+
+        float dt_s = dt.count() / 1000000;
+
+        if(dt_s > 0.01)
+            dt_s = 0.01;
+        
+        // Calculate stuf for pid
+        err = m_target_power - get_motor_power();
+        diff = 0.7*(err / dt_s) + 0.3 * m_pr_diff;
+        m_pr_diff = diff;
+
+        // Calculate pid
+        float pid = m_kp * err + m_ki * m_i_err + m_kd * diff;
+
+        pwm += pid;
+
+        // Don't increase i_err if we're at max pwm
+        if(fabs(pwm) < 255) 
+            m_i_err += err * dt_s;
+        else if(pwm < 0) {
+            pwm = -255;
+            // Write to the pins
+            gpioPWM(m_pwm_pin, -pwm);
+            gpioWrite(m_direction_pin, 1);
         }
+        else {
+            pwm = 255;
+            // Write to the pins
+            gpioPWM(m_pwm_pin, -pwm);
+            gpioWrite(m_direction_pin, 0);
+        }
+        
+        // Let CPU rest
+        std::this_thread::sleep_for(milliseconds(1));
     }
+}
+
+float PWMController::get_motor_power() {
+    return 0;
 }

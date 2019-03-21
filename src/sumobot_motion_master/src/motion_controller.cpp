@@ -48,18 +48,16 @@ MotionController::MotionController(MotorPublisher *p,
                                    float left_multiplier,
                                    float right_multiplier,
                                    int motor_zero_power,
-                                   float timeout_s) {
+                                   float timeout_s)
+        :m_left_deadband(left_deadband), 
+         m_right_deadband(right_deadband),
+         m_max_acceleration(max_acceleration),
+         m_left_multiplier(left_multiplier),
+         m_right_multiplier(right_multiplier),
+         m_motor_zero_power(motor_zero_power),
+         m_timeout_s(timeout_s) {
     publisher = p;
     
-    // Config variables
-    m_left_deadband = 0.1;
-    m_right_deadband = 0.1;
-    m_max_acceleration = 100;
-    m_left_multiplier = 1.0;
-    m_right_multiplier = 1.0;
-    m_motor_zero_power = 10;
-    m_timeout_s = 30;
-
     // Changing variables
     m_target_powers.left_power = 0;
     m_target_powers.right_power = 0;

@@ -69,7 +69,7 @@ int main(int argc, char **argv) {
         (*config_data)["left_multiplier"].asFloat(),
         (*config_data)["right_multiplier"].asFloat(),
         (*config_data)["motor_zero_power"].asInt(),
-        (*config_data)["timeoue_s"].asFloat()
+        (*config_data)["timeout_s"].asFloat()
     );
     // Create listener for xbox controller data
     XboxListener controller(&node_handle, 

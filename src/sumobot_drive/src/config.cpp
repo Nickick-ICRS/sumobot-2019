@@ -31,7 +31,9 @@
 std::vector<std::string> g_available_config_keys = {
     "node_name",
     "topic_name",
-    "pwm_frequency",
+    "kp",
+    "ki",
+    "kd",
     "left_motor_pwm_pin",
     "left_motor_direction_pin",
     "right_motor_pwm_pin",
@@ -42,11 +44,13 @@ std::vector<std::string> g_available_config_keys = {
 std::map<std::string, Json::Value> g_default_config_values = {
     {"node_name", Json::Value("sumobot_drive")},
     {"topic_name", Json::Value("motor_control")},
-    {"pwm_frequency", Json::Value(10000)},
-    {"left_motor_pwm_pin", Json::Value(10)},
-    {"left_motor_direction_pin", Json::Value(11)},
-    {"right_motor_pwm_pin", Json::Value(12)},
-    {"right_motor_direction_pin", Json::Value(13)}
+    {"kp", Json::Value(1028)},
+    {"ki", Json::Value(0)},
+    {"kd", Json::Value(0)},
+    {"left_motor_pwm_pin", Json::Value(14)},
+    {"left_motor_direction_pin", Json::Value(15)},
+    {"right_motor_pwm_pin", Json::Value(23)},
+    {"right_motor_direction_pin", Json::Value(24)}
 };
 
 ConfigManager::ConfigManager() {

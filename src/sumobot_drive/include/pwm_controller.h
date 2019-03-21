@@ -28,9 +28,10 @@
 #ifndef __PWM_CONTROLLER_H
 #define __PWM_CONTROLLER_H
 
-#include <wiringPi.h>
+#include <pigpio.h>
 #include <thread>
 #include <chrono>
+#include <cmath>
 
 /*
  * PWM Control for the motors used in The Shoveller
@@ -39,25 +40,23 @@
 
 class PWMController {
 public:
-    PWMController(int pwm_frequency_hz, 
+    PWMController(float kp, 
+                  float ki, 
+                  float kd,
                   char motor_pwm_pin, 
                   char motor_direction_pin);
     ~PWMController();
 
-    // Set the duty cycle on period as a percentage of the total duty cycle
-    void set_motor_power(char percent);
-    // Change the direction of the motor
-    void set_motor_direction(bool direction);
+    // Set the power of the motor (+/- 100%)
+    void set_motor_power(signed char percent);
 private:
-    // Length of the duty cycle
-    float m_duty_cycle_length_us;
-    // Duty cycle on and off period lengths in us
-    volatile float m_duty_cycle_on_us;
-    volatile float m_duty_cycle_off_us;
-    // Current state of output - on or off
-    bool m_current_state;
-    // Current direction / state of direction pin
-    volatile bool m_direction;
+    // Constants and variables for PID
+    float m_kp, m_ki, m_kd;
+    float m_i_err;
+    float m_pr_diff;
+    
+    // Target for motor power
+    volatile float m_target_power;
     // Pins
     char m_pwm_pin;
     char m_direction_pin;
@@ -66,8 +65,11 @@ private:
     std::thread *pwm_thread;
     // Flag to signal when the thread should end
     bool m_running;
+    
     // Function to update the PWM state of the motor - run by above thread
     void update_PWM();
+    // Function to check the current power of the motors
+    float get_motor_power();
 };
 
 #endif // MOTOR_PWM_H
