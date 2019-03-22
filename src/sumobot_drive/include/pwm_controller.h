@@ -28,7 +28,9 @@
 #ifndef __PWM_CONTROLLER_H
 #define __PWM_CONTROLLER_H
 
+#ifdef __arm__
 #include <pigpio.h>
+#endif
 #include <thread>
 #include <chrono>
 #include <cmath>

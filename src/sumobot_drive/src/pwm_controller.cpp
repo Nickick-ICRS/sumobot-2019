@@ -63,6 +63,8 @@ PWMController::~PWMController() {
 void PWMController::set_motor_power(signed char percent) {
     // Set target power in W
     m_target_power = 0.015 * percent;
+    percent = 2.55f * (float)percent;
+#ifdef __arm__
     if(percent < 0) {
         percent = -percent;
         gpioWrite(m_direction_pin, 1);
@@ -70,6 +72,7 @@ void PWMController::set_motor_power(signed char percent) {
     else
         gpioWrite(m_direction_pin, 0);
     gpioPWM(m_pwm_pin, percent);
+#endif 
 }
 
 void PWMController::update_PWM() {
@@ -108,6 +111,7 @@ void PWMController::update_PWM() {
         // Don't increase i_err if we're at max pwm
         if(fabs(pwm) < 255) 
             m_i_err += err * dt_s;
+        #ifdef __arm__
         else if(pwm < 0) {
             pwm = -255;
             // Write to the pins
@@ -120,6 +124,7 @@ void PWMController::update_PWM() {
             gpioPWM(m_pwm_pin, -pwm);
             gpioWrite(m_direction_pin, 0);
         }
+        #endif
         
         // Let CPU rest
         std::this_thread::sleep_for(milliseconds(1));

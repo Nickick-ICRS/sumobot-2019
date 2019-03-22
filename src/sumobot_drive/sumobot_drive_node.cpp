@@ -26,7 +26,9 @@
  ********************************************************************/
 
 #include <iostream>
+#ifdef __arm__
 #include <pigpio.h>
+#endif
 #include <ros/ros.h>
 
 #include "listener.h"
@@ -109,6 +111,8 @@ int main(int argc, char **argv) {
     }
     
     // Free memory
+#ifdef __arm__
     gpioTerminate();
+#endif
     return 0;
 }
