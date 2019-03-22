@@ -89,7 +89,7 @@ int main(int argc, char **argv) {
         }
         else {
             left_motor.set_motor_power(
-                -command_listener.get_left_motor_target() & POWER_MASK
+                -(signed char)(command_listener.get_left_motor_target() & POWER_MASK)
             );
 
         }
@@ -101,7 +101,7 @@ int main(int argc, char **argv) {
         }
         else {
             right_motor.set_motor_power(
-                -command_listener.get_right_motor_target() & POWER_MASK
+                -(signed char)(command_listener.get_right_motor_target() & POWER_MASK)
             );
         }
         

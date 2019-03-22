@@ -29,7 +29,7 @@ import json
 from os.path import expanduser, dirname, exists
 from os import makedirs
 
-CONFIG_FILENAME = expanduser("~") + "/.config/sumobot/sumobot_xbox_controller/" + "config.json"
+CONFIG_FILENAME = "/home/nrh16/.config/sumobot/sumobot_xbox_controller/" + "config.json"
 
 # Config data read from the file
 data = {}

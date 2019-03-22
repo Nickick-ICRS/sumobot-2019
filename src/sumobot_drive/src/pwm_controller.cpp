@@ -63,15 +63,16 @@ PWMController::~PWMController() {
 void PWMController::set_motor_power(signed char percent) {
     // Set target power in W
     m_target_power = 0.015 * percent;
-    percent = 2.55f * (float)percent;
 #ifdef __arm__
     if(percent < 0) {
         percent = -percent;
         gpioWrite(m_direction_pin, 1);
+        gpioPWM(m_pwm_pin, 255 - 2.55f*(float)percent);
     }
-    else
+    else {
         gpioWrite(m_direction_pin, 0);
-    gpioPWM(m_pwm_pin, percent);
+        gpioPWM(m_pwm_pin, 2.55f*(float)percent);
+    }
 #endif 
 }
 
@@ -115,13 +116,13 @@ void PWMController::update_PWM() {
         else if(pwm < 0) {
             pwm = -255;
             // Write to the pins
-            gpioPWM(m_pwm_pin, -pwm);
+            gpioPWM(m_pwm_pin, 255 + pwm);
             gpioWrite(m_direction_pin, 1);
         }
         else {
             pwm = 255;
             // Write to the pins
-            gpioPWM(m_pwm_pin, -pwm);
+            gpioPWM(m_pwm_pin, pwm);
             gpioWrite(m_direction_pin, 0);
         }
         #endif

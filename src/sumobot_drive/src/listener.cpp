@@ -45,6 +45,7 @@ Listener::~Listener() {
 
 void Listener::receive_motor_instructions(const sumobot_msgs::MotorPowers::ConstPtr& msg) {
     // Set motor powers based on received values
+    #include <iostream>
     if(msg->left_power > 100)
         m_left_motor_target = 100;
     else
@@ -58,4 +59,5 @@ void Listener::receive_motor_instructions(const sumobot_msgs::MotorPowers::Const
         m_right_motor_target = msg->right_power;
     if(msg->right_direction)
         m_right_motor_target |= DIRECTION_MASK;
+    std::cout << "rp: " << (short)(m_right_motor_target & POWER_MASK) << "\tlp: " << (short)(m_left_motor_target & POWER_MASK) << std::endl;
 }

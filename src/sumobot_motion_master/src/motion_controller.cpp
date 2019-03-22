@@ -26,6 +26,7 @@
  ********************************************************************/
 
 #include "motion_controller.h"
+#include <iostream>
 
 bool operator!=(const MotorPowerFloats& lhs, const MotorPowerFloats& rhs) {
     return !(lhs == rhs);
@@ -111,7 +112,7 @@ void MotionController::process_axes_data(float *left, float *right) {
         forwards_vel = (forwards_vel - m_left_deadband)
                      / (1.0f - m_left_deadband);
     }
-    if(abs(turning_vel) < m_right_deadband) 
+    if(fabs(turning_vel) < m_right_deadband) 
         turning_vel = 0;
     else if(turning_vel > 0) {
         turning_vel = (turning_vel - m_right_deadband)
@@ -122,10 +123,12 @@ void MotionController::process_axes_data(float *left, float *right) {
                     / (1.0f - m_right_deadband);
     }
 
+    std::cout << "for: " << forwards_vel << "\ttur: " << turning_vel << std::endl;
+
     // Set right and left velocities to maximum
     m_target_powers.left_power = forwards_vel * 100;
     m_target_powers.right_power = forwards_vel * 100;
-    
+
     // If turning_vel > 0 then turn right
     if(turning_vel > 0) {
         // Now varies between -0.5 and 0.5
@@ -134,7 +137,7 @@ void MotionController::process_axes_data(float *left, float *right) {
         // When turning_vel < 0 then right_vel should be positive
         // When turning_vel > 0 then right_vel should be negative
         // forwards_vel is normalised though so account for this at the end
-        float right_vel = abs(turning_vel) * forwards_vel / 0.5f;
+        float right_vel = fabs(turning_vel) * forwards_vel / 0.5f;
         
         m_target_powers.right_power = right_vel * 100;
 
@@ -151,7 +154,7 @@ void MotionController::process_axes_data(float *left, float *right) {
         // When turning_vel > 0 then left_vel should be positive
         // When turning_vel < 0 then left_vel should be negative
         // forwards_vel is normalised though so account for this at the end
-        float left_vel = abs(turning_vel) * forwards_vel / 0.5f;
+        float left_vel = fabs(turning_vel) * forwards_vel / 0.5f;
         
         m_target_powers.left_power = left_vel * 100;
 
@@ -165,6 +168,7 @@ void MotionController::process_axes_data(float *left, float *right) {
     m_target_powers.left_power *= m_left_multiplier;
     m_target_powers.right_power *= m_right_multiplier;
 
+    std::cout << "targ_l: " << m_target_powers.left_power << "\ttarg_r: " << m_target_powers.right_power << std::endl;
 }
 
 void MotionController::process_button_data(bool a,

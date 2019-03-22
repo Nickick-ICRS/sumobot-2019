@@ -38,11 +38,11 @@ using namespace std::chrono;
 
 int main(int argc, char **argv) {
     // Create config managers
-    ConfigManager xbox_cfg_mgr(std::string(getenv("HOME")) + 
-                             "/.config/sumobot/sumobot_xbox_controller/", 
+    ConfigManager xbox_cfg_mgr(//std::string(getenv("HOME")) + 
+                             "/home/nrh16/.config/sumobot/sumobot_xbox_controller/", 
                              "config.json");
-    ConfigManager motor_cfg_mgr(std::string(getenv("HOME")) + 
-                             "/.config/sumobot/sumobot_drive/", 
+    ConfigManager motor_cfg_mgr(//std::string(getenv("HOME")) + 
+                             "/home/nrh16/.config/sumobot/sumobot_drive/", 
                              "config.json");
 
     MotionMasterConfigManager cfg_mgr;

@@ -34,7 +34,7 @@
 #include <fstream>
 
 // Filename of the config file this class handles
-#define CONFIG_FILEPATH std::string(getenv("HOME")) + "/.config/sumobot/sumobot_drive/"
+#define CONFIG_FILEPATH std::string("/home/nrh16/.config/sumobot/sumobot_drive/")
 #define CONFIG_FILENAME std::string(CONFIG_FILEPATH) + "config.json"
 
 class ConfigManager {
