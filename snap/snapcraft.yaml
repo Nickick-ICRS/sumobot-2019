@@ -4,7 +4,7 @@ summary: It's my sumobot
 description: It's ya boiiiii
 
 grade: devel # must be 'stable' to release into candidate/stable channels
-confinement: classic # use 'strict' once you have the right plugs and slots
+confinement: devmode # use 'strict' once you have the right plugs and slots
 
 parts:
   workspace:
@@ -16,3 +16,4 @@ apps:
   main:
     command: roslaunch sumobot_motion_master sumobot.launch
     plugs: [network, network-bind]
+    #daemon: simple
