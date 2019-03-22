@@ -10,18 +10,9 @@ parts:
   workspace:
     plugin: catkin
     rosdistro: kinetic
-    catkin-packages: [sumobot_motion_master, sumobot_drive, sumobot_xbox_controller]
+    catkin-packages: [sumobot_motion_master, sumobot_drive, sumobot_xbox_controller, sumobot_msgs]
 
 apps:
-  roscore:
-    command: roscore
-    plugs: [network, network-bind]
-  xbox_listener:
-    command: rosrun sumobot_xbox_controller node
-    plugs: [network, network-bind]
-  drive:
-    command: rosrun sumobot_drive node
-    plugs: [network, network-bind]
-  master:
-    command: rosrun sumobot_motion_master node
+  main:
+    command: roslaunch sumobot_motion_master sumobot.launch
     plugs: [network, network-bind]
